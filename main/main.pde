@@ -5,15 +5,15 @@ import java.util.List;
 JSONObject gdp;
 JSONObject suicide;
 
-void setup() {
-  
+void setup() { 
   gdp = new JSONObject();
-  gdp = loadJSONObject("/Users/Joel/Ohjelmointi/CS-C1190/main/data/gdp.json");
+  gdp = loadJSONObject("data/gdp.json");
   suicide = new JSONObject();
-  suicide = loadJSONObject("/Users/Joel/Ohjelmointi/CS-C1190/main/data/suicide.json");
+  suicide = loadJSONObject("data/suicide.json");
   gdp();  
   suicide();
 }
+
 
 /*
 Function for parsing JSON data from data folder to java. JSON files are generated with eurostat's
