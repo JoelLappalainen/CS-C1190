@@ -15,6 +15,7 @@ void setup() {
   suicide();
 }
 
+
 /*
 Function for parsing JSON data from data folder to java. JSON files are generated with eurostat's
 query builder and this function should work with every search result.
@@ -63,4 +64,8 @@ void suicide() {
   println("Crude death by suicide from age 15 to 19:\n");
   getData(suicide);
   println("\n \n******************************************** \n");
+}
+
+void coffee() {
+  println("jees");
 }
