@@ -15,6 +15,11 @@ void setup() {
   suicide();
 }
 
+/*
+Function for parsing JSON data from data folder to java. JSON files are generated with eurostat's
+query builder and this function should work with every search result.
+See: http://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/query-builder)
+*/
 void getData(JSONObject file) {
   JSONObject status = file.getJSONObject("status");
   List<String> statusKeys = new ArrayList<String>(status.keys());
@@ -29,11 +34,16 @@ void getData(JSONObject file) {
   int i = 0;
   while(i < labelKeys.size()){
     String code = labelKeys.get(i);
+    String index = Integer.toString(indexes.getInt(code)); 
+    String country = labels.getString(code);
     try {
-        String index = Integer.toString(indexes.getInt(code));    
+      if(statusKeys.contains(index) && status.getString(index).equals(":")) {
+        println("Country: " + country + "," + " value: Not available!");
+      }
+      else {
         long value = values.getLong(index);
-        String country = labels.getString(code);
-        println("Country: " + country + "," + " value: " + value );      
+        println("Country: " + country + "," + " value: " + value );     
+      }
     } catch(Exception e) {
       println(e);
     }
