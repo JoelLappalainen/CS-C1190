@@ -8,9 +8,9 @@ JSONObject suicide;
 void setup() {
   
   gdp = new JSONObject();
-  gdp = loadJSONObject("data.json");
+  gdp = loadJSONObject("/Users/Joel/Ohjelmointi/CS-C1190/main/data/gdp.json");
   suicide = new JSONObject();
-  suicide = loadJSONObject("suicide.json");
+  suicide = loadJSONObject("/Users/Joel/Ohjelmointi/CS-C1190/main/data/suicide.json");
   gdp();  
   suicide();
 }
@@ -33,7 +33,7 @@ void getData(JSONObject file) {
         String index = Integer.toString(indexes.getInt(code));    
         long value = values.getLong(index);
         String country = labels.getString(code);
-        println("Country: " + country + "," + " code: "+ code + "," + " value: " + value );      
+        println("Country: " + country + "," + " value: " + value );      
     } catch(Exception e) {
       println(e);
     }
@@ -43,10 +43,14 @@ void getData(JSONObject file) {
 
 // get gdp data
 void gdp() {
+  println("Gross domestic product at market prices: \n");
   getData(gdp);
+  println("\n \n******************************************** \n");
 }
 
 // get suicide data
 void suicide() {
+  println("Crude death by suicide from age 15 to 19:\n");
   getData(suicide);
+  println("\n \n******************************************** \n");
 }
