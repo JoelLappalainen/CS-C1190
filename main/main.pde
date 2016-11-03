@@ -2,18 +2,24 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
-
-JSONObject json;
+JSONObject gdp;
+JSONObject suicide;
 
 void setup() {
   
-  json = new JSONObject();
-  json = loadJSONObject("data.json");
-  JSONObject status = json.getJSONObject("status");
+  gdp = new JSONObject();
+  gdp = loadJSONObject("data.json");
+  suicide = new JSONObject();
+  suicide = loadJSONObject("suicide.json");
+  gdp();  
+  suicide();
+}
+
+void getData(JSONObject file) {
+  JSONObject status = file.getJSONObject("status");
   List<String> statusKeys = new ArrayList<String>(status.keys());
-  println(statusKeys);
-  JSONObject values = json.getJSONObject("value");
-  JSONObject dimensions = json.getJSONObject("dimension");
+  JSONObject values = file.getJSONObject("value");
+  JSONObject dimensions = file.getJSONObject("dimension");
   JSONObject geo = dimensions.getJSONObject("geo");
   JSONObject category = geo.getJSONObject("category");
   JSONObject indexes = category.getJSONObject("index");
@@ -27,15 +33,20 @@ void setup() {
         String index = Integer.toString(indexes.getInt(code));    
         long value = values.getLong(index);
         String country = labels.getString(code);
-        println("Country: " + country + "," + " code: "+ code + "," + " value: " + value );
-      
+        println("Country: " + country + "," + " code: "+ code + "," + " value: " + value );      
     } catch(Exception e) {
       println(e);
     }
     i += 1;
   }
-  
-  
-  
-  
+}
+
+// get gdp data
+void gdp() {
+  getData(gdp);
+}
+
+// get suicide data
+void suicide() {
+  getData(suicide);
 }
