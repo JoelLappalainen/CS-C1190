@@ -68,4 +68,5 @@ void suicide() {
 
 void coffee() {
   println("jees");
+  println("ksje");
 }
