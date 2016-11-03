@@ -65,8 +65,3 @@ void suicide() {
   getData(suicide);
   println("\n \n******************************************** \n");
 }
-
-void coffee() {
-  println("jees");
-  println("ksje");
-}
