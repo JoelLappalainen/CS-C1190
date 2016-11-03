@@ -1,1 +1,4 @@
-Ohjeita data.json tiedoston käyttöön
+Data categories:
+
+- GDP by countries
+- Suicide death rate within young people (15-19y.) TODO
