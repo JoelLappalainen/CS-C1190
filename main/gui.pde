@@ -1,11 +1,7 @@
 PShape kartta;
 PShape maa;
+
 float skaala = 2;
-
-//void setup(){
-
-  //maa.disableStyle();
-//}
 
 void draw(){
   background(0);
