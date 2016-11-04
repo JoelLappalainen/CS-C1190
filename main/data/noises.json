@@ -1,0 +1,209 @@
+{
+  "version": "2.0",
+  "label": "Noise from neighbours or from the street - EU-SILC survey",
+  "href": "http://ec.europa.eu/eurostat/wdds/rest/data/v2.1/json/en/ilc_mddw01?precision=1&lastTimePeriod=1&incgrp=TOTAL&hhtyp=TOTAL",
+  "source": "Eurostat",
+  "updated": "2016-10-25",
+  "status": {
+    "3": ":",
+    "8": ":",
+    "9": "e",
+    "13": ":",
+    "14": "e",
+    "19": ":",
+    "25": ":",
+    "36": ":"
+  },
+  "extension": {
+    "datasetId": "ilc_mddw01",
+    "lang": "EN",
+    "description": null,
+    "subTitle": null,
+    "status": {
+      "label": {
+        ":": "not available",
+        "e": "estimated"
+      }
+    }
+  },
+  "class": "dataset",
+  "value": {
+    "0": 17.5,
+    "1": 18,
+    "2": 9.7,
+    "4": 17.2,
+    "5": 13.9,
+    "6": 25.8,
+    "7": 16.5,
+    "9": 19.6,
+    "10": 9.4,
+    "11": 19.2,
+    "12": 15.7,
+    "14": 18.1,
+    "15": 11.7,
+    "16": 16.4,
+    "17": 8.4,
+    "18": 13.7,
+    "20": 11.4,
+    "21": 18.3,
+    "22": 15.4,
+    "23": 20.1,
+    "24": 14.6,
+    "26": 24.8,
+    "27": 24.7,
+    "28": 10.2,
+    "29": 12.4,
+    "30": 23,
+    "31": 22.2,
+    "32": 13.1,
+    "33": 11.9,
+    "34": 12.9,
+    "35": 12.8,
+    "37": 16.5
+  },
+  "dimension": {
+    "hhtyp": {
+      "label": "hhtyp",
+      "category": {
+        "index": {
+          "TOTAL": 0
+        },
+        "label": {
+          "TOTAL": "Total"
+        }
+      }
+    },
+    "incgrp": {
+      "label": "incgrp",
+      "category": {
+        "index": {
+          "TOTAL": 0
+        },
+        "label": {
+          "TOTAL": "Total"
+        }
+      }
+    },
+    "unit": {
+      "label": "unit",
+      "category": {
+        "index": {
+          "PC_POP": 0
+        },
+        "label": {
+          "PC_POP": "Percentage of total population"
+        }
+      }
+    },
+    "geo": {
+      "label": "geo",
+      "category": {
+        "index": {
+          "AT": 0,
+          "BE": 1,
+          "BG": 2,
+          "CH": 3,
+          "CY": 4,
+          "CZ": 5,
+          "DE": 6,
+          "DK": 7,
+          "EA18": 8,
+          "EA19": 9,
+          "EE": 10,
+          "EL": 11,
+          "ES": 12,
+          "EU27": 13,
+          "EU28": 14,
+          "FI": 15,
+          "FR": 16,
+          "HR": 17,
+          "HU": 18,
+          "IE": 19,
+          "IS": 20,
+          "IT": 21,
+          "LT": 22,
+          "LU": 23,
+          "LV": 24,
+          "MK": 25,
+          "MT": 26,
+          "NL": 27,
+          "NO": 28,
+          "PL": 29,
+          "PT": 30,
+          "RO": 31,
+          "RS": 32,
+          "SE": 33,
+          "SI": 34,
+          "SK": 35,
+          "TR": 36,
+          "UK": 37
+        },
+        "label": {
+          "AT": "Austria",
+          "BE": "Belgium",
+          "BG": "Bulgaria",
+          "CH": "Switzerland",
+          "CY": "Cyprus",
+          "CZ": "Czech Republic",
+          "DE": "Germany (until 1990 former territory of the FRG)",
+          "DK": "Denmark",
+          "EA18": "Euro area (18 countries)",
+          "EA19": "Euro area (19 countries)",
+          "EE": "Estonia",
+          "EL": "Greece",
+          "ES": "Spain",
+          "EU27": "European Union (27 countries)",
+          "EU28": "European Union (28 countries)",
+          "FI": "Finland",
+          "FR": "France",
+          "HR": "Croatia",
+          "HU": "Hungary",
+          "IE": "Ireland",
+          "IS": "Iceland",
+          "IT": "Italy",
+          "LT": "Lithuania",
+          "LU": "Luxembourg",
+          "LV": "Latvia",
+          "MK": "Former Yugoslav Republic of Macedonia, the",
+          "MT": "Malta",
+          "NL": "Netherlands",
+          "NO": "Norway",
+          "PL": "Poland",
+          "PT": "Portugal",
+          "RO": "Romania",
+          "RS": "Serbia",
+          "SE": "Sweden",
+          "SI": "Slovenia",
+          "SK": "Slovakia",
+          "TR": "Turkey",
+          "UK": "United Kingdom"
+        }
+      }
+    },
+    "time": {
+      "label": "time",
+      "category": {
+        "index": {
+          "2015": 0
+        },
+        "label": {
+          "2015": "2015"
+        }
+      }
+    }
+  },
+  "id": [
+    "hhtyp",
+    "incgrp",
+    "unit",
+    "geo",
+    "time"
+  ],
+  "size": [
+    1,
+    1,
+    1,
+    38,
+    1
+  ]
+}

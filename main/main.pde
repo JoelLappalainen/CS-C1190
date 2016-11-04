@@ -6,6 +6,11 @@ JSONObject gdp;
 JSONObject suicide;
 
 void setup() { 
+  
+  size (1280, 940);
+  kartta = loadShape("datmap.svg");
+  maa = kartta.getChild("it");
+  
   gdp = new JSONObject();
   gdp = loadJSONObject("data/gdp.json");
   suicide = new JSONObject();
