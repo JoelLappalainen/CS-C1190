@@ -2,12 +2,10 @@ PShape kartta;
 PShape maa;
 float skaala = 2;
 
-void setup(){
-  size (1280, 940);
-  kartta = loadShape("datmap.svg");
-  maa = kartta.getChild("it");
+//void setup(){
+
   //maa.disableStyle();
-}
+//}
 
 void draw(){
   background(0);
