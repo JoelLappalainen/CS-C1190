@@ -64,3 +64,7 @@ void suicide() {
   getData(suicide);
   println("\n \n******************************************** \n");
 }
+
+void jee() {
+println("jee");  
+}
