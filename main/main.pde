@@ -2,8 +2,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
-JSONObject gdp;
-JSONObject suicide;
+JSONObject gdp, suicide, kuha;
 
 void setup() { 
   
@@ -15,8 +14,11 @@ void setup() {
   gdp = loadJSONObject("data/gdp.json");
   suicide = new JSONObject();
   suicide = loadJSONObject("data/suicide.json");
+  kuha = new JSONObject();
+  kuha = loadJSONObject("data/kuha.json");
   gdp();  
   suicide();
+  kuha();
 }
 
 
@@ -56,6 +58,39 @@ void getData(JSONObject file) {
   }
 }
 
+void getKuha(JSONObject file) {
+  JSONObject values = file.getJSONObject("value");
+  JSONObject dimensions = file.getJSONObject("dimension");
+  JSONObject geo = dimensions.getJSONObject("geo");
+  JSONObject geoCategory = geo.getJSONObject("category");
+  JSONObject geoIndexes = geoCategory.getJSONObject("index");
+  JSONObject geoLabels = geoCategory.getJSONObject("label");
+  List<String> geoLabelKeys = new ArrayList<String>(geoIndexes.keys());
+  
+  JSONObject time = dimensions.getJSONObject("time");
+  JSONObject timeCategory = time.getJSONObject("category");
+  JSONObject timeIndexes = timeCategory.getJSONObject("index");
+  List<String> yearStrings = new ArrayList<String>(timeIndexes.keys());
+  int nOfYears = timeIndexes.size();
+  int y = 0;
+  
+  while(y < nOfYears){
+    println("\nYear " + yearStrings.get(y));
+    int i = 0;
+    while(i < geoLabelKeys.size()){
+      String code = geoLabelKeys.get(i);
+      String index = Integer.toString(geoIndexes.getInt(code) * nOfYears + y); 
+      String country = geoLabels.getString(code);
+     
+      long value = values.getLong(index);
+      println("Country: " + country + "," + " value: " + value );     
+  
+      i++;
+    }
+  y++;  
+  }  
+}
+
 // get gdp data
 void gdp() {
   println("Gross domestic product at market prices: \n");
@@ -70,6 +105,8 @@ void suicide() {
   println("\n \n******************************************** \n");
 }
 
-void jee() {
-println("jee");  
+void kuha() {
+  println("Weight of pike-perch caught in tonnes:"); 
+  getKuha(kuha);
+  println("\n \n******************************************** \n");
 }
