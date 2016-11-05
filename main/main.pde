@@ -8,7 +8,6 @@ void setup() {
   
   size (1280, 940);
   kartta = loadShape("datmap.svg");
-  maa = kartta.getChild("it");
   
   gdp = new JSONObject();
   gdp = loadJSONObject("data/gdp.json");
@@ -37,10 +36,12 @@ void getData(JSONObject file) {
   JSONObject indexes = category.getJSONObject("index");
   JSONObject labels = category.getJSONObject("label");
   List<String> labelKeys = new ArrayList<String>(indexes.keys());
+  //PShape ctry;
   
   int i = 0;
   while(i < labelKeys.size()){
     String code = labelKeys.get(i);
+   // ctry = kartta.getChild(code.toLowerCase());
     String index = Integer.toString(indexes.getInt(code)); 
     String country = labels.getString(code);
     try {
@@ -49,6 +50,7 @@ void getData(JSONObject file) {
       }
       else {
         long value = values.getLong(index);
+       // ctry.setFill(color(random(255)));
         println("Country: " + country + "," + " value: " + value );     
       }
     } catch(Exception e) {
