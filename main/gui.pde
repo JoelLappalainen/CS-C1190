@@ -5,17 +5,17 @@ float skaala = 2.1;
 
 void gayColor(){
   int topDeath = 0;
-  for (int i = 0; i < states.size() - 1; i++){
+  for (int i = 0; i < states.size(); i++){
     if (deathCount[i] > topDeath){
       topDeath = deathCount[i];
     }
   }
 
-  for (int i = 0; i < states.size() - 1; i++){
+  for (int i = 0; i < states.size(); i++){
     if (deathCount[i] == topDeath){
       kartta.getChild(states.get(i)).setFill(color(360, 100, 100));
     }
-    else if (i != 13){
+    else {
       kartta.getChild(states.get(i)).setFill(color(360, 100, 100*(float(deathCount[i])/float(topDeath))));
     }
   }
