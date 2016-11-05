@@ -5,7 +5,7 @@ import java.util.List;
 JSONObject gdp, suicide, kuha;
 
 void setup() { 
-  
+  colorMode(HSB, 360, 100, 100);
   size (1280, 940);
   kartta = loadShape("datmap.svg");
   
@@ -18,8 +18,11 @@ void setup() {
   gdp();  
   suicide();
   kuha();
+  gayColor();
 }
 
+List<String> states = new ArrayList<String>();
+int[] deathCount = new int[100];
 
 /*
 Function for parsing JSON data from data folder to java. JSON files are generated with eurostat's
@@ -36,22 +39,22 @@ void getData(JSONObject file) {
   JSONObject indexes = category.getJSONObject("index");
   JSONObject labels = category.getJSONObject("label");
   List<String> labelKeys = new ArrayList<String>(indexes.keys());
-  //PShape ctry;
   
   int i = 0;
   while(i < labelKeys.size()){
     String code = labelKeys.get(i);
-   // ctry = kartta.getChild(code.toLowerCase());
+    if (file == suicide) states.add(code.toLowerCase());
     String index = Integer.toString(indexes.getInt(code)); 
     String country = labels.getString(code);
     try {
       if(statusKeys.contains(index) && status.getString(index).equals(":")) {
         println("Country: " + country + "," + " value: Not available!");
+        if (file == suicide) deathCount[i] = 0;
       }
       else {
-        long value = values.getLong(index);
-       // ctry.setFill(color(random(255)));
-        println("Country: " + country + "," + " value: " + value );     
+        int value = values.getInt(index);
+        println("Country: " + country + "," + " value: " + value );  
+        if (file == suicide) deathCount[i] = value;
       }
     } catch(Exception e) {
       println(e);
