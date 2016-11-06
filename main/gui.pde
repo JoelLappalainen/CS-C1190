@@ -3,20 +3,21 @@ PShape maa;
 
 float skaala = 2.1;
 
-void gayColor(){
-  int topDeath = 0;
-  for (int i = 0; i < states.size(); i++){
-    if (deathCount[i] > topDeath){
-      topDeath = deathCount[i];
+void gayColor(Map<String,Integer> data){
+  int max = 0;
+  Set<String> states = data.keySet();
+  for (String state : states) {
+    int current = data.get(state);
+    if (current > max){
+      max = current;
     }
   }
 
-  for (int i = 0; i < states.size(); i++){
-    if (deathCount[i] == topDeath){
-      kartta.getChild(states.get(i)).setFill(color(360, 100, 100));
-    }
-    else {
-      kartta.getChild(states.get(i)).setFill(color(360, 100, 100*(float(deathCount[i])/float(topDeath))));
+  for (String state : states){
+    if (data.get(state) == max){
+      kartta.getChild(state).setFill(color(360, 100, 100));
+    } else {
+      kartta.getChild(state).setFill(color(360, 100, 100*(float(data.get(state))/float(max))));
     }
   }
 }
