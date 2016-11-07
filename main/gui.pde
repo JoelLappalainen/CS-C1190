@@ -20,11 +20,8 @@ void gayColor(Map<String,Integer> data){
   Set<String> states = data.keySet();
   for (String state : states) {
     int current = data.get(state);
-    if (current > max){
-      max = current;
-    }
+    if (current > max) max = current;
   }
-
   for (String state : states){
     kartta.getChild(state).setFill(color(360, 100, 100*(float(data.get(state))/float(max))));
   }
@@ -34,23 +31,23 @@ void startScreen(){
     background(360, 0, 40);
     
     pushMatrix();
-    translate(0, -150);
-    scale(skaala);
-    shape(kartta, 0, 0);
+      translate(0, -150);
+      scale(skaala);
+      shape(kartta, 0, 0);
     popMatrix();
     
     pushMatrix();
-    translate(0, 0);
-    rectMode(CORNER);
-    fill(255, 0, 0, 191);
-    rect(250, 100, 800, 550); //tumma boksi
-    fill(0, 0, 100);
-    textSize(14);
-    textAlign(RIGHT);
-    text("CS-C1190 - Vuorovaikutustekniikan studio", 570, 130);
-    textSize(30);
-    textAlign(CENTER);
-    text("Valitse tarkasteltava data", width/2, 200);
+      translate(0, 0);
+      rectMode(CORNER);
+      fill(255, 0, 0, 191);
+      rect(250, 100, 800, 550); //tumma boksi
+      fill(0, 0, 100);
+      textSize(14);
+      textAlign(RIGHT);
+      text("CS-C1190 - Vuorovaikutustekniikan studio", 570, 130);
+      textSize(30);
+      textAlign(CENTER);
+      text("Valitse tarkasteltava data", width/2, 200);
     popMatrix();
     
     // Test if the cursor is over the box
@@ -110,11 +107,10 @@ void draw(){
   } else {
     background(360, 0, 40);
     pushMatrix();
-    translate(0, -150);
-    scale(skaala);
-    shape(kartta, 0, 0);
-    popMatrix();
-    
+      translate(0, -150);
+      scale(skaala);
+      shape(kartta, 0, 0);
+    popMatrix();  
   }
 }
 
