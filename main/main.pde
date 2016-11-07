@@ -7,10 +7,15 @@ import java.util.Set;
 JSONObject gdp, suicide, fish, noises, internet;
 Map gdpData, suicideData, fishData, noisesData, internetData;
 
+boolean start;
+float bx;
+float by;
+
 void setup() { 
   colorMode(HSB, 360, 100, 100);
   size (1280, 940);
   kartta = loadShape("datmap.svg");
+  start = true;
   
   gdp = new JSONObject();
   gdp = loadJSONObject("data/gdp.json");
@@ -23,10 +28,17 @@ void setup() {
   internet = new JSONObject();
   internet = loadJSONObject("data/internet.json");
   //gdp();  
-  suicide();
+  //suicide();
   //fish();
   //noises();
   //internet();
+  
+  datataulukko.add("Crude death by suicide from age 15 to 19");
+  datataulukko.add("Gross domestic product at market prices");
+  datataulukko.add("Weight of pike-perch caught in tonnes");
+  
+  bx = 270.0;
+  by = 265.0;
 }
 
 /*
