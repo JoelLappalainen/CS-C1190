@@ -36,6 +36,8 @@ void setup() {
   datataulukko.add("Crude death by suicide from age 15 to 19");
   datataulukko.add("Gross domestic product at market prices");
   datataulukko.add("Weight of pike-perch caught in tonnes");
+  datataulukko.add("Noise from neighbours or from the street");
+  datataulukko.add("Individuals - frequency of internet use");
   
   bx = 270.0;
   by = 265.0;
@@ -141,14 +143,14 @@ void fish() {
 }
 
 void noises() {
-  println("insert text");
+  println("Noise from neighbours or from the street");
   noisesData = getData(noises);
   gayColor(noisesData);
   println("\n \n******************************************** \n");
 }
 
 void internet() {
-  println("insert text");
+  println("Individuals - frequency of internet use");
   internetData = getData(internet);
   gayColor(internetData);
   println("\n \n******************************************** \n");
