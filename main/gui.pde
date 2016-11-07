@@ -14,11 +14,7 @@ void gayColor(Map<String,Integer> data){
   }
 
   for (String state : states){
-    if (data.get(state) == max){
-      kartta.getChild(state).setFill(color(360, 100, 100));
-    } else {
-      kartta.getChild(state).setFill(color(360, 100, 100*(float(data.get(state))/float(max))));
-    }
+    kartta.getChild(state).setFill(color(360, 100, 100*(float(data.get(state))/float(max))));
   }
 }
 
