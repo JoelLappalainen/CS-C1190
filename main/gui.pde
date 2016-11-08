@@ -75,6 +75,7 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
 
 void startScreen(){
     background(360, 0, 40);
+    kartta = loadShape("datmap.svg");
     
     pushMatrix();
       translate(0, -150);
@@ -94,7 +95,6 @@ void startScreen(){
       textSize(30);
       textAlign(CENTER);
       text("Valitse tarkasteltava data", width/2, 200);
-      
     popMatrix();
     
     // Test if the cursor is over the box
@@ -216,7 +216,7 @@ void keyPressed()
     year++ ;
   }
   
-  if (key == 'b'){
+  if (keyCode == DOWN){
     if(boxhover < datataulukko.size()){
       boxhover += 1;
       if(boxhover == 2){
@@ -242,8 +242,33 @@ void keyPressed()
     }
   }
     
-    println(boxhover);
-    if(boxhover == 1 && key == 'x') {
+  if (keyCode == UP){
+    if(boxhover >= 1){
+      boxhover -= 1;
+      if(boxhover == 2){
+        overBox3 = false;
+        overBox2 = true;
+      } else if(boxhover == 3){
+        overBox4 = false;
+        overBox3 = true;
+      } else if(boxhover == 4){
+        overBox5 = false;
+        overBox4 = true;
+      } else if(boxhover == 5){
+        overBox1 = false;
+        overBox5 = true;
+      } else if(boxhover == 1){
+        overBox2 = false;
+        overBox1 = true;
+      } else {
+        boxhover = 5;
+        overBox1 = false;
+        overBox5 = true;
+      }
+    }
+  }
+    
+    if(boxhover == 1 && key == 'x' && start) {
       start = false;
       dataNow = datataulukko.get(0);
       suicide();
@@ -264,4 +289,4 @@ void keyPressed()
       dataNow = datataulukko.get(4);
       internet();
     }
-  }
+}
