@@ -18,7 +18,7 @@ void fakeMap() {
   fkartta.getChild("fi").setFill(color(13, 0, 0)); //finland
   fkartta.getChild("fr").setFill(color(14, 0, 0)); //france
   fkartta.getChild("de").setFill(color(15, 0, 0)); //germany
-  fkartta.getChild("il").setFill(color(16, 0, 0)); //greece
+  fkartta.getChild("el").setFill(color(16, 0, 0)); //greece
   fkartta.getChild("hu").setFill(color(17, 0, 0)); //hungary
   fkartta.getChild("is").setFill(color(18, 0, 0)); //iceland
   fkartta.getChild("ie").setFill(color(19, 0, 0)); //ireland
