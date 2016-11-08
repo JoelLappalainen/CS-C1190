@@ -5,7 +5,7 @@ PShape kartta;
 PShape fkartta;
 PShape maa;
 
-float skaala = 2.1;
+float skaala = 2.0;
 
 int boxSize = 400;
 int boxWidth = 190;
@@ -14,7 +14,7 @@ int boxhover = 1;
 color boxColor = color(149, 226, 255);
 String dataNow = "";
 String[] maataulukko = { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
-                         "fo", "fi", "fr", "de", "il", "hu", "is", "ie", "im", "it", "rs", "lv",
+                         "fo", "fi", "fr", "de", "el", "hu", "is", "ie", "im", "it", "rs", "lv",
                          "li", "lt", "lu", "mk", "mt", "md", "mc", "me", "nl", "no", "pl", "pt",
                          "ro", "ru", "sm", "rs", "sk", "si", "es", "se", "ch", "ua", "uk", "va"
                        };
@@ -27,8 +27,14 @@ boolean overBox5 = false;
 
 ArrayList<String> datataulukko = new ArrayList<String>();
 
+color isoinHue;
+int isoinArvo;
+int pieninArvo;
+String yksikko;
+
 //0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
 void gayColor(Map<String,Integer> data, int coloriMoodi){
+  colorMode(HSB, 360, 100, 100);
   kartta = loadShape("datmap.svg");
   int max = 0;
   int secondMax = 0;
@@ -49,12 +55,33 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
     else if (current >= min && current <= secondMin) secondMin = current;
   }
   
+  isoinArvo = max;
+  pieninArvo = min;
+  
+  if (coloriMoodi == 0) {
+    isoinHue = 360;
+    yksikko = "per 100000";
+  }
   if (coloriMoodi == 1) {
+    isoinHue = 50;
     max = max - (max - secondMax) + 10000;
     min = min + (secondMin - min) - 10000;
+    yksikko = "M€";
   }
-  else if (coloriMoodi == 2) max = max - (max - secondMax) + 100;
-  else if (coloriMoodi == 4) min = min + (secondMin - min) - 1;
+  else if (coloriMoodi == 2) {
+    isoinHue = 141;
+    max = max - (max - secondMax) + 100;
+    yksikko = "t";
+  }
+  else if (coloriMoodi == 3 ) {
+    isoinHue = 313;
+    yksikko = "% per capita";
+  }
+  else if (coloriMoodi == 4) {
+    isoinHue = 208;
+    min = min + (secondMin - min) - 1;
+    yksikko = "% daily access of population";
+  }
   println(max);
   println(secondMax);
   println(min);
@@ -78,7 +105,16 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
   }
 }
 
-void startScreen(){    
+
+void startScreen(){
+    kartta = loadShape("datmap.svg");
+    
+    pushMatrix();
+      translate(0, -150);
+      scale(skaala);
+      shape(kartta, 0, 0);
+    popMatrix();
+  
     pushMatrix();
       translate(0, 0);
       rectMode(CORNER);
@@ -91,7 +127,6 @@ void startScreen(){
       textSize(30);
       textAlign(CENTER);
       text("Valitse tarkasteltava data", width/2, 200);
-      
     popMatrix();
     
     // Test if the cursor is over the box
@@ -203,28 +238,60 @@ void draw(){
       textAlign(LEFT);
       text(dataNow, 10, 25);
     popMatrix();
+    
+    colorMode(HSB, 360, 100, 100);
+    rectMode(CORNER);
+    noFill();
+    stroke(1);
+    fill(color(isoinHue, 100, 100));
+    rect(7, 250, 30, 30);
+    fill(color(isoinHue, 100, 84));
+    rect(7, 280, 30, 30);
+    fill(color(isoinHue, 100, 67));
+    rect(7, 310, 30, 30);
+    fill(color(isoinHue, 100, 51));
+    rect(7, 340, 30, 30);
+    fill(color(isoinHue, 100, 34));
+    rect(7, 370, 30, 30);
+    fill(color(isoinHue, 100, 17));
+    rect(7, 400, 30, 30);
+    fill(color(isoinHue, 100, 0));
+    rect(7, 430, 30, 30);
+    float siirtyma = (float(1)/float(6)) * (float(isoinArvo) - float(pieninArvo));
+    fill(0, 0, 100);
+    text(yksikko, 9, 245);
+    text(isoinArvo, 40, 275);
+    text(ceil(isoinArvo - (siirtyma)), 40, 305);
+    text(ceil(isoinArvo - 2*(siirtyma)), 40, 335);
+    text(ceil(isoinArvo - 3*(siirtyma)), 40, 365);
+    text(ceil(isoinArvo - 4*(siirtyma)), 40, 395);
+    text(ceil(isoinArvo - 5*(siirtyma)), 40, 425);
+    text(ceil(isoinArvo - 6*(siirtyma)), 40, 455);
   }
 }
 
 void keyPressed()
 {
   
-  if(key == 'a') {
+  if(key == 'b') {
     start = true;
   }
-  if(key == 'y') {
+  if(key == 'y' || keyCode == LEFT) {
     year = year+1;
-    if(currentData == 2) fish();
+    if(currentData == 2){
+      fishData = getData(fish);
+      gayColor(fishData, 2);
+    }
   } 
-  if(key == 'u') {
+  if(key == 'u' || keyCode == RIGHT) {
     year = max(year-1,0);
-    if(currentData == 2) fish();
-  }
-  if(key == 'e') {
-    countryPicker();
+    if(currentData == 2) {
+      fishData = getData(fish);
+      gayColor(fishData, 2);
+    }
   }
   
-  if (key == 'b'){
+  if (keyCode == DOWN){
     if(boxhover < datataulukko.size()){
       boxhover += 1;
       if(boxhover == 2){
@@ -250,8 +317,33 @@ void keyPressed()
     }
   }
     
-    println(boxhover);
-    if(boxhover == 1 && key == 'x') {
+  if (keyCode == UP){
+    if(boxhover >= 1){
+      boxhover -= 1;
+      if(boxhover == 2){
+        overBox3 = false;
+        overBox2 = true;
+      } else if(boxhover == 3){
+        overBox4 = false;
+        overBox3 = true;
+      } else if(boxhover == 4){
+        overBox5 = false;
+        overBox4 = true;
+      } else if(boxhover == 5){
+        overBox1 = false;
+        overBox5 = true;
+      } else if(boxhover == 1){
+        overBox2 = false;
+        overBox1 = true;
+      } else {
+        boxhover = 5;
+        overBox1 = false;
+        overBox5 = true;
+      }
+    }
+  }
+    
+    if(boxhover == 1 && key == 'x' && start) {
       start = false;
       dataNow = datataulukko.get(0);
       suicide();
@@ -300,5 +392,4 @@ void countryPicker() {
     }
     println(hoveredValue);
   }
-  
 }
