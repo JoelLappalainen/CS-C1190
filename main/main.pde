@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-JSONObject gdp, suicide, fish, noises, internet;
-Map gdpData, suicideData, fishData, noisesData, internetData;
-int year = 0;
+JSONObject suicide, gdp, fish, noises, internet;
+Map<String, Integer> suicideData, gdpData, fishData, noisesData, internetData;
+int year;
+int currentData;
 
 boolean start;
 float bx;
@@ -16,18 +17,25 @@ void setup() {
   colorMode(HSB, 360, 100, 100);
   size (1280, 940);
   kartta = loadShape("datmap.svg");
+  fkartta = loadShape("datmap.svg");
   start = true;
+  year = 0;
   
-  gdp = new JSONObject();
-  gdp = loadJSONObject("data/gdp.json");
   suicide = new JSONObject();
   suicide = loadJSONObject("data/suicide.json");
+  suicideData = getData(suicide);
+  gdp = new JSONObject();
+  gdp = loadJSONObject("data/gdp.json");
+  gdpData = getData(gdp);
   fish = new JSONObject();
   fish = loadJSONObject("data/kuha.json");
+  fishData = getData(fish);
   noises = new JSONObject();
   noises = loadJSONObject("data/noises.json");
+  noisesData = getData(noises);
   internet = new JSONObject();
   internet = loadJSONObject("data/internet.json");
+  internetData = getData(internet);
   
   datataulukko.add("Crude death by suicide from age 15 to 19");
   datataulukko.add("Gross domestic product at market prices");
@@ -78,39 +86,39 @@ Map getData(JSONObject file) {
   return data;
 }
 
-// get gdp data
-void gdp() {
-  println("Gross domestic product at market prices: \n");
-  gdpData = getData(gdp);
-  gayColor(gdpData, 1);
-  println("\n \n******************************************** \n");
-}
-
 // get suicide data
 void suicide() {
   println("Crude death by suicide from age 15 to 19:\n");
-  suicideData = getData(suicide);
+  currentData = 0;
   gayColor(suicideData, 0);
   println("\n \n******************************************** \n");
 }
 
+// get gdp data
+void gdp() {
+  println("Gross domestic product at market prices: \n");
+  currentData = 1;
+  gayColor(gdpData, 1);
+  println("\n \n******************************************** \n");
+}
+
 void fish() {
-  println("Weight of pike-perch caught in tonnes:");   
-  fishData = getData(fish);
+  println("Weight of pike-perch caught in tonnes:");  
+  currentData = 2;
   gayColor(fishData, 2);
   println("\n \n******************************************** \n");
 }
 
 void noises() {
   println("Noise from neighbours or from the street");
-  noisesData = getData(noises);
+  currentData = 3;
   gayColor(noisesData, 3);
   println("\n \n******************************************** \n");
 }
 
 void internet() {
   println("Individuals - frequency of internet use");
-  internetData = getData(internet);
+  currentData = 4;
   gayColor(internetData, 4);
   println("\n \n******************************************** \n");
 }

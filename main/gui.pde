@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 PFont font;
 PShape kartta;
+PShape fkartta;
 PShape maa;
 
 float skaala = 2.1;
@@ -12,6 +13,11 @@ int boxHeight = 30;
 int boxhover = 1;
 color boxColor = color(149, 226, 255);
 String dataNow = "";
+String[] maataulukko = { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
+                         "fo", "fi", "fr", "de", "il", "hu", "is", "ie", "im", "it", "rs", "lv",
+                         "li", "lt", "lu", "mk", "mt", "md", "mc", "me", "nl", "no", "pl", "pt",
+                         "ro", "ru", "sm", "rs", "sk", "si", "es", "se", "ch", "ua", "uk", "va"
+                       };
 
 boolean overBox1 = false;
 boolean overBox2 = false;
@@ -70,18 +76,9 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
       kartta.getChild(state).setFill(color(208, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
     }
   }
-  
 }
 
-void startScreen(){
-    background(360, 0, 40);
-    
-    pushMatrix();
-      translate(0, -150);
-      scale(skaala);
-      shape(kartta, 0, 0);
-    popMatrix();
-    
+void startScreen(){    
     pushMatrix();
       translate(0, 0);
       rectMode(CORNER);
@@ -186,15 +183,19 @@ void startScreen(){
 void draw(){
   font = createFont("AvenirNextCondensed-Bold", 18);
   textFont(font);
+  countryPicker();
+  
+  colorMode(HSB);
+  background(360, 0, 40);
+  pushMatrix();
+    translate(0, -150);
+    scale(skaala);
+    shape(kartta, 0, 0);
+  popMatrix();
+  
   if (start) {
     startScreen();
   } else {
-    background(360, 0, 40);
-    pushMatrix();
-      translate(0, -150);
-      scale(skaala);
-      shape(kartta, 0, 0);
-    popMatrix();
     pushMatrix();
       translate(0, 0);
       scale(skaala);
@@ -210,10 +211,17 @@ void keyPressed()
   
   if(key == 'a') {
     start = true;
-  } else if(key == 'y') {
-    year = max(year-1, 0);
-  } else if(key == 'u') {
-    year++ ;
+  }
+  if(key == 'y') {
+    year = year+1;
+    if(currentData == 2) fish();
+  } 
+  if(key == 'u') {
+    year = max(year-1,0);
+    if(currentData == 2) fish();
+  }
+  if(key == 'e') {
+    countryPicker();
   }
   
   if (key == 'b'){
@@ -264,4 +272,33 @@ void keyPressed()
       dataNow = datataulukko.get(4);
       internet();
     }
+}
+
+void countryPicker() {
+  fakeMap();
+  pushMatrix();
+    translate(0, -150);
+    scale(skaala);
+    shape(fkartta, 0, 0);
+  popMatrix();
+  
+  int index = ceil(red(get(mouseX, mouseY)));
+  if (index < 48 && index > 10) {
+    String hoveredCountry = maataulukko[index];
+    Integer hoveredValue;
+    
+    if (currentData == 0) {
+      hoveredValue = suicideData.get(hoveredCountry);
+    } else if (currentData == 1) {
+      hoveredValue = gdpData.get(hoveredCountry);
+    } else if (currentData == 2) {
+      hoveredValue = fishData.get(hoveredCountry);
+    } else if (currentData == 3) {
+      hoveredValue = noisesData.get(hoveredCountry);
+    } else {
+      hoveredValue = internetData.get(hoveredCountry);
+    }
+    println(hoveredValue);
   }
+  
+}
