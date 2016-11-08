@@ -6,6 +6,7 @@ import java.util.Set;
 
 JSONObject gdp, suicide, fish, noises, internet;
 Map gdpData, suicideData, fishData, noisesData, internetData;
+int year = 0;
 
 boolean start;
 float bx;
@@ -45,7 +46,7 @@ See: http://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-star
 */
 
 
-Map getData(JSONObject file, int year) {
+Map getData(JSONObject file) {
   JSONObject values = file.getJSONObject("value");
   JSONObject dimensions = file.getJSONObject("dimension");
   JSONObject geoCategory = dimensions.getJSONObject("geo").getJSONObject("category");
@@ -59,6 +60,7 @@ Map getData(JSONObject file, int year) {
   
   int nOfYears = timeIndexes.size();
   if (year >= nOfYears) year = nOfYears - 1;
+  if (year < 0) year = 0;
   println("\nYear " + yearsAsString.get(year));
   int i = 0;
   while(i < geoLabelKeys.size()){
@@ -76,11 +78,6 @@ Map getData(JSONObject file, int year) {
   return data;
 }
 
-Map getData(JSONObject file) {
-  return getData(file, 0);
-}
-
-
 // get gdp data
 void gdp() {
   println("Gross domestic product at market prices: \n");
@@ -97,15 +94,11 @@ void suicide() {
   println("\n \n******************************************** \n");
 }
 
-void fish(int year) {
-  println("Weight of pike-perch caught in tonnes:"); 
-  fishData = getData(fish, year);
+void fish() {
+  println("Weight of pike-perch caught in tonnes:");   
+  fishData = getData(fish);
   gayColor(fishData);
   println("\n \n******************************************** \n");
-}
-
-void fish() {
-  fish(0);
 }
 
 void noises() {
