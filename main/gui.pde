@@ -185,7 +185,7 @@ void mousePressed() {
 
 void keyPressed()
 {
-  if(key == 'A') {
+  if(key == 'a') {
     start = true;
   }
 }

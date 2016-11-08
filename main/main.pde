@@ -83,7 +83,7 @@ void getData(JSONObject file) {
 }
 */
 
-Map getData(JSONObject file) {
+Map getData(JSONObject file, int year) {
   JSONObject values = file.getJSONObject("value");
   JSONObject dimensions = file.getJSONObject("dimension");
   JSONObject geoCategory = dimensions.getJSONObject("geo").getJSONObject("category");
@@ -96,26 +96,28 @@ Map getData(JSONObject file) {
   Map<String,Integer> data = new HashMap<String,Integer>();
   
   int nOfYears = timeIndexes.size();
-  int y = 0;
   
-  while(y < nOfYears){
-    println("\nYear " + yearsAsString.get(y));
-    int i = 0;
-    while(i < geoLabelKeys.size()){
-      String code = geoLabelKeys.get(i);
-      String index = Integer.toString(geoIndexes.getInt(code) * nOfYears + y); 
-      String country = geoLabels.getString(code);
-      int value = values.getInt(index);
+  
+  
+  println("\nYear " + yearsAsString.get(year));
+  int i = 0;
+  while(i < geoLabelKeys.size()){
+    String code = geoLabelKeys.get(i);
+    String index = Integer.toString(geoIndexes.getInt(code) * nOfYears + year); 
+    String country = geoLabels.getString(code);
+    int value = values.getInt(index);
       
-      data.put(code.toLowerCase(), values.getInt(index));
+    data.put(code.toLowerCase(), values.getInt(index));
      
-      println("Country: " + country + "," + " value: " + value );     
+    println("Country: " + country + "," + " value: " + value );     
   
-      i++;
-    }
-  y++;  
-  }
+    i++;
+  } 
   return data;
+}
+
+Map getData(JSONObject file) {
+  return getData(file, 0);
 }
 
 
