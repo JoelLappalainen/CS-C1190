@@ -6,6 +6,7 @@ import java.util.Set;
 
 JSONObject gdp, suicide, fish, noises, internet;
 Map gdpData, suicideData, fishData, noisesData, internetData;
+int year = 0;
 
 boolean start;
 float bx;
@@ -27,11 +28,6 @@ void setup() {
   noises = loadJSONObject("data/noises.json");
   internet = new JSONObject();
   internet = loadJSONObject("data/internet.json");
-  //gdp();  
-  //suicide();
-  //fish();
-  //noises();
-  //internet();
   
   datataulukko.add("Crude death by suicide from age 15 to 19");
   datataulukko.add("Gross domestic product at market prices");
@@ -47,43 +43,10 @@ void setup() {
 Function for parsing JSON data from data folder to java. JSON files are generated with eurostat's
 query builder and this function should work with every search result.
 See: http://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/query-builder)
-
-void getData(JSONObject file) {
-  JSONObject status = file.getJSONObject("status");
-  List<String> statusKeys = new ArrayList<String>(status.keys());
-  JSONObject values = file.getJSONObject("value");
-  JSONObject dimensions = file.getJSONObject("dimension");
-  JSONObject geo = dimensions.getJSONObject("geo");
-  JSONObject category = geo.getJSONObject("category");
-  JSONObject indexes = category.getJSONObject("index");
-  JSONObject labels = category.getJSONObject("label");
-  List<String> labelKeys = new ArrayList<String>(indexes.keys());
-  
-  int i = 0;
-  while(i < labelKeys.size()){
-    String code = labelKeys.get(i);
-    if (file == suicide) states.add(code.toLowerCase());
-    String index = Integer.toString(indexes.getInt(code)); 
-    String country = labels.getString(code);
-    try {
-      if(statusKeys.contains(index) && status.getString(index).equals(":")) {
-        println("Country: " + country + "," + " value: Not available!");
-        if (file == suicide) deathCount[i] = 0;
-      }
-      else {
-        int value = values.getInt(index);
-        println("Country: " + country + "," + " value: " + value );  
-        if (file == suicide) deathCount[i] = value;
-      }
-    } catch(Exception e) {
-      println(e);
-    }
-    i += 1;
-  }
-}
 */
 
-Map getData(JSONObject file, int year) {
+
+Map getData(JSONObject file) {
   JSONObject values = file.getJSONObject("value");
   JSONObject dimensions = file.getJSONObject("dimension");
   JSONObject geoCategory = dimensions.getJSONObject("geo").getJSONObject("category");
@@ -96,9 +59,8 @@ Map getData(JSONObject file, int year) {
   Map<String,Integer> data = new HashMap<String,Integer>();
   
   int nOfYears = timeIndexes.size();
-  
-  
-  
+  if (year >= nOfYears) year = nOfYears - 1;
+  if (year < 0) year = 0;
   println("\nYear " + yearsAsString.get(year));
   int i = 0;
   while(i < geoLabelKeys.size()){
@@ -115,11 +77,6 @@ Map getData(JSONObject file, int year) {
   } 
   return data;
 }
-
-Map getData(JSONObject file) {
-  return getData(file, 0);
-}
-
 
 // get gdp data
 void gdp() {
@@ -138,7 +95,7 @@ void suicide() {
 }
 
 void fish() {
-  println("Weight of pike-perch caught in tonnes:"); 
+  println("Weight of pike-perch caught in tonnes:");   
   fishData = getData(fish);
   gayColor(fishData, 2);
   println("\n \n******************************************** \n");
