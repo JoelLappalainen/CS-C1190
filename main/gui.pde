@@ -18,6 +18,7 @@ boolean overBox5 = false;
 ArrayList<String> datataulukko = new ArrayList<String>();
 
 void gayColor(Map<String,Integer> data){
+  kartta = loadShape("datmap.svg");
   int max = 0;
   Set<String> states = data.keySet();
   for (String state : states) {
