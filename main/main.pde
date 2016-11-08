@@ -27,11 +27,6 @@ void setup() {
   noises = loadJSONObject("data/noises.json");
   internet = new JSONObject();
   internet = loadJSONObject("data/internet.json");
-  //gdp();  
-  //suicide();
-  //fish();
-  //noises();
-  //internet();
   
   datataulukko.add("Crude death by suicide from age 15 to 19");
   datataulukko.add("Gross domestic product at market prices");
@@ -47,41 +42,8 @@ void setup() {
 Function for parsing JSON data from data folder to java. JSON files are generated with eurostat's
 query builder and this function should work with every search result.
 See: http://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-started/query-builder)
-
-void getData(JSONObject file) {
-  JSONObject status = file.getJSONObject("status");
-  List<String> statusKeys = new ArrayList<String>(status.keys());
-  JSONObject values = file.getJSONObject("value");
-  JSONObject dimensions = file.getJSONObject("dimension");
-  JSONObject geo = dimensions.getJSONObject("geo");
-  JSONObject category = geo.getJSONObject("category");
-  JSONObject indexes = category.getJSONObject("index");
-  JSONObject labels = category.getJSONObject("label");
-  List<String> labelKeys = new ArrayList<String>(indexes.keys());
-  
-  int i = 0;
-  while(i < labelKeys.size()){
-    String code = labelKeys.get(i);
-    if (file == suicide) states.add(code.toLowerCase());
-    String index = Integer.toString(indexes.getInt(code)); 
-    String country = labels.getString(code);
-    try {
-      if(statusKeys.contains(index) && status.getString(index).equals(":")) {
-        println("Country: " + country + "," + " value: Not available!");
-        if (file == suicide) deathCount[i] = 0;
-      }
-      else {
-        int value = values.getInt(index);
-        println("Country: " + country + "," + " value: " + value );  
-        if (file == suicide) deathCount[i] = value;
-      }
-    } catch(Exception e) {
-      println(e);
-    }
-    i += 1;
-  }
-}
 */
+
 
 Map getData(JSONObject file, int year) {
   JSONObject values = file.getJSONObject("value");
@@ -96,9 +58,7 @@ Map getData(JSONObject file, int year) {
   Map<String,Integer> data = new HashMap<String,Integer>();
   
   int nOfYears = timeIndexes.size();
-  
-  
-  
+  if (year >= nOfYears) year = nOfYears - 1;
   println("\nYear " + yearsAsString.get(year));
   int i = 0;
   while(i < geoLabelKeys.size()){
@@ -137,11 +97,15 @@ void suicide() {
   println("\n \n******************************************** \n");
 }
 
-void fish() {
+void fish(int year) {
   println("Weight of pike-perch caught in tonnes:"); 
-  fishData = getData(fish);
+  fishData = getData(fish, year);
   gayColor(fishData);
   println("\n \n******************************************** \n");
+}
+
+void fish() {
+  fish(0);
 }
 
 void noises() {

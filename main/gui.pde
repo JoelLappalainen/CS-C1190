@@ -174,7 +174,7 @@ void mousePressed() {
     gdp();
   } else if (mouseX > width/2-boxSize/2 && mouseX < width/2+boxSize/2 && mouseY > by+100-boxHeight/2 && mouseY < by+100+boxHeight/2){
     start = false;
-    fish();
+    fish(0);
   } else if (mouseX > width/2-boxSize/2 && mouseX < width/2+boxSize/2 && mouseY > by+150-boxHeight/2 && mouseY < by+150+boxHeight/2){
     start = false;
     noises();
