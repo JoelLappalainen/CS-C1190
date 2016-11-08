@@ -375,7 +375,7 @@ void countryPicker() {
   popMatrix();
   
   int index = ceil(red(get(mouseX, mouseY)));
-  if (index < 48 && index > 10) {
+  if (index < 48) {
     String hoveredCountry = maataulukko[index];
     Integer hoveredValue;
     
