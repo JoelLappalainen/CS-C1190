@@ -21,6 +21,11 @@ boolean overBox5 = false;
 
 ArrayList<String> datataulukko = new ArrayList<String>();
 
+color isoinHue;
+int isoinArvo;
+int pieninArvo;
+String yksikko;
+
 //0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
 void gayColor(Map<String,Integer> data, int coloriMoodi){
   kartta = loadShape("datmap.svg");
@@ -43,12 +48,33 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
     else if (current >= min && current <= secondMin) secondMin = current;
   }
   
+  isoinArvo = max;
+  pieninArvo = min;
+  
+  if (coloriMoodi == 0) {
+    isoinHue = 360;
+    yksikko = "per 100000";
+  }
   if (coloriMoodi == 1) {
+    isoinHue = 50;
     max = max - (max - secondMax) + 10000;
     min = min + (secondMin - min) - 10000;
+    yksikko = "M€";
   }
-  else if (coloriMoodi == 2) max = max - (max - secondMax) + 100;
-  else if (coloriMoodi == 4) min = min + (secondMin - min) - 1;
+  else if (coloriMoodi == 2) {
+    isoinHue = 141;
+    max = max - (max - secondMax) + 100;
+    yksikko = "t";
+  }
+  else if (coloriMoodi == 3 ) {
+    isoinHue = 313;
+    yksikko = "% per capita";
+  }
+  else if (coloriMoodi == 4) {
+    isoinHue = 208;
+    min = min + (secondMin - min) - 1;
+    yksikko = "% daily access of population";
+  }
   println(max);
   println(secondMax);
   println(min);
@@ -70,7 +96,6 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
       kartta.getChild(state).setFill(color(208, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
     }
   }
-  
 }
 
 void startScreen(){
@@ -202,6 +227,33 @@ void draw(){
       textAlign(LEFT);
       text(dataNow, 10, 25);
     popMatrix();
+    rectMode(CORNER);
+    noFill();
+    stroke(1);
+    fill(color(isoinHue, 100, 100));
+    rect(7, 250, 30, 30);
+    fill(color(isoinHue, 100, 84));
+    rect(7, 280, 30, 30);
+    fill(color(isoinHue, 100, 67));
+    rect(7, 310, 30, 30);
+    fill(color(isoinHue, 100, 51));
+    rect(7, 340, 30, 30);
+    fill(color(isoinHue, 100, 34));
+    rect(7, 370, 30, 30);
+    fill(color(isoinHue, 100, 17));
+    rect(7, 400, 30, 30);
+    fill(color(isoinHue, 100, 0));
+    rect(7, 430, 30, 30);
+    float siirtyma = (float(1)/float(6)) * (float(isoinArvo) - float(pieninArvo));
+    fill(0, 0, 100);
+    text(yksikko, 9, 245);
+    text(isoinArvo, 40, 275);
+    text(ceil(isoinArvo - (siirtyma)), 40, 305);
+    text(ceil(isoinArvo - 2*(siirtyma)), 40, 335);
+    text(ceil(isoinArvo - 3*(siirtyma)), 40, 365);
+    text(ceil(isoinArvo - 4*(siirtyma)), 40, 395);
+    text(ceil(isoinArvo - 5*(siirtyma)), 40, 425);
+    text(ceil(isoinArvo - 6*(siirtyma)), 40, 455);
   }
 }
 
