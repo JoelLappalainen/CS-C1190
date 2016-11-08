@@ -125,7 +125,7 @@ Map getData(JSONObject file) {
 void gdp() {
   println("Gross domestic product at market prices: \n");
   gdpData = getData(gdp);
-  gayColor(gdpData);
+  gayColor(gdpData, 1);
   println("\n \n******************************************** \n");
 }
 
@@ -133,27 +133,27 @@ void gdp() {
 void suicide() {
   println("Crude death by suicide from age 15 to 19:\n");
   suicideData = getData(suicide);
-  gayColor(suicideData);
+  gayColor(suicideData, 0);
   println("\n \n******************************************** \n");
 }
 
 void fish() {
   println("Weight of pike-perch caught in tonnes:"); 
   fishData = getData(fish);
-  gayColor(fishData);
+  gayColor(fishData, 2);
   println("\n \n******************************************** \n");
 }
 
 void noises() {
   println("Noise from neighbours or from the street");
   noisesData = getData(noises);
-  gayColor(noisesData);
+  gayColor(noisesData, 3);
   println("\n \n******************************************** \n");
 }
 
 void internet() {
   println("Individuals - frequency of internet use");
   internetData = getData(internet);
-  gayColor(internetData);
+  gayColor(internetData, 4);
   println("\n \n******************************************** \n");
 }

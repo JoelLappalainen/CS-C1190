@@ -17,16 +17,54 @@ boolean overBox5 = false;
 
 ArrayList<String> datataulukko = new ArrayList<String>();
 
-void gayColor(Map<String,Integer> data){
+//0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
+void gayColor(Map<String,Integer> data, int coloriMoodi){
   kartta = loadShape("datmap.svg");
   int max = 0;
+  int secondMax = 0;
+  int min = 1000000000;
+  int secondMin = 1000000000 + 1;
   Set<String> states = data.keySet();
   for (String state : states) {
     int current = data.get(state);
-    if (current > max) max = current;
+    if (current > max) {
+      secondMax = max;
+      max = current;
+    }
+    else if (current <= max && current >= secondMax) secondMax = current;
+    if (current < min) {
+      secondMin = min;
+      min = current;
+    }
+    else if (current >= min && current <= secondMin) secondMin = current;
   }
+  
+  if (coloriMoodi == 1) {
+    max = max - (max - secondMax) + 10000;
+    min = min + (secondMin - min) - 10000;
+  }
+  else if (coloriMoodi == 2) max = max - (max - secondMax) + 100;
+  else if (coloriMoodi == 4) min = min + (secondMin - min) - 1;
+  println(max);
+  println(secondMax);
+  println(min);
+  println(secondMin);
   for (String state : states){
-    kartta.getChild(state).setFill(color(360, 100, 100*(float(data.get(state))/float(max))));
+    if (coloriMoodi == 0){
+      kartta.getChild(state).setFill(color(360, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
+    }
+    else if (coloriMoodi == 1){
+      kartta.getChild(state).setFill(color(50, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
+    }
+    else if (coloriMoodi == 2){
+      kartta.getChild(state).setFill(color(141, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
+    }
+    else if (coloriMoodi == 3){
+      kartta.getChild(state).setFill(color(313, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
+    }
+    else if (coloriMoodi == 4){
+      kartta.getChild(state).setFill(color(208, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
+    }
   }
 }
 
