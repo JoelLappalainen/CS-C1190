@@ -6,45 +6,29 @@ import java.util.Set;
 
 JSONObject suicide, gdp, fish, noises, internet;
 Map<String, Integer> suicideData, gdpData, fishData, noisesData, internetData;
-int year;
-int currentData;
+int dataIndex = 0;
+JSONObject[] files;
 
-boolean start;
-float bx;
-float by;
+int nOfStats = 5;
+int year = nOfStats-1;
+boolean start = true;
+float bx = 270.0;
+float by = 265.0;
 
 void setup() { 
   colorMode(HSB, 360, 100, 100);
   size (1280, 940);
   kartta = loadShape("datmap.svg");
   fkartta = loadShape("datmap.svg");
-  start = true;
-  year = 0;
   
-  suicide = new JSONObject();
-  suicide = loadJSONObject("data/suicide.json");
-  suicideData = getData(suicide);
-  gdp = new JSONObject();
-  gdp = loadJSONObject("data/gdp.json");
-  gdpData = getData(gdp);
-  fish = new JSONObject();
+  suicide = loadJSONObject("data/suicide5.json");
+  gdp = loadJSONObject("data/gdp5.json");
   fish = loadJSONObject("data/kuha.json");
-  fishData = getData(fish);
-  noises = new JSONObject();
-  noises = loadJSONObject("data/noises.json");
-  noisesData = getData(noises);
-  internet = new JSONObject();
-  internet = loadJSONObject("data/internet.json");
-  internetData = getData(internet);
+  noises = loadJSONObject("data/noises5.json");
+  internet = loadJSONObject("data/internet5.json");
   
-  datataulukko.add("Crude death by suicide from age 15 to 19");
-  datataulukko.add("Gross domestic product at market prices");
-  datataulukko.add("Weight of pike-perch caught in tonnes");
-  datataulukko.add("Noise from neighbours or from the street");
-  datataulukko.add("Individuals - frequency of internet use");
-  
-  bx = 270.0;
-  by = 265.0;
+  JSONObject[] data = { suicide, gdp, fish, noises, internet };
+  files = data;
 }
 
 /*
@@ -54,7 +38,7 @@ See: http://ec.europa.eu/eurostat/web/json-and-unicode-web-services/getting-star
 */
 
 
-Map getData(JSONObject file) {
+Map<String, Integer> getData(JSONObject file) {
   JSONObject values = file.getJSONObject("value");
   JSONObject dimensions = file.getJSONObject("dimension");
   JSONObject geoCategory = dimensions.getJSONObject("geo").getJSONObject("category");
@@ -84,41 +68,4 @@ Map getData(JSONObject file) {
     i++;
   } 
   return data;
-}
-
-// get suicide data
-void suicide() {
-  println("Crude death by suicide from age 15 to 19:\n");
-  currentData = 0;
-  gayColor(suicideData, 0);
-  println("\n \n******************************************** \n");
-}
-
-// get gdp data
-void gdp() {
-  println("Gross domestic product at market prices: \n");
-  currentData = 1;
-  gayColor(gdpData, 1);
-  println("\n \n******************************************** \n");
-}
-
-void fish() {
-  println("Weight of pike-perch caught in tonnes:");  
-  currentData = 2;
-  gayColor(fishData, 2);
-  println("\n \n******************************************** \n");
-}
-
-void noises() {
-  println("Noise from neighbours or from the street");
-  currentData = 3;
-  gayColor(noisesData, 3);
-  println("\n \n******************************************** \n");
-}
-
-void internet() {
-  println("Individuals - frequency of internet use");
-  currentData = 4;
-  gayColor(internetData, 4);
-  println("\n \n******************************************** \n");
 }
