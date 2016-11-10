@@ -3,7 +3,7 @@ int hoveredValue;
 void fakeMap() {
   colorMode(RGB, 100, 100, 100);
   for (int i=0; i<48; i++){
-    fkartta.getChild(allCodes[i]).setFill(color(i, 0, 0));
+    newMap.getChild(allCodes[i]).setFill(color(i, 0, 0));
   }
 }
 
@@ -11,8 +11,8 @@ void countryHover() {
   fakeMap();
   pushMatrix();
     translate(0, -150);
-    scale(skaala);
-    shape(fkartta, 0, 0);
+    scale(scaleFactor);
+    shape(newMap, 0, 0);
   popMatrix();
   
   List<String> codeList = codes.get(dataIndex);
@@ -35,7 +35,7 @@ void infoWindow() {
   if (hoveredValue >= 0) {
     pushMatrix();
       translate(mouseX, mouseY);
-      scale(skaala);
+      scale(scaleFactor);
       noFill();
       rectMode(CORNER);
       rect(0,0, 50, 50);
