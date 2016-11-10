@@ -39,7 +39,6 @@ class Touchpad implements Observer {
         int ang   = f.getAngle();
         
         float dx = f.getXVelocity();
-        if(dx > 10)
         
         pushMatrix();
           translate(x-xsize/2, y-ysize/2);
