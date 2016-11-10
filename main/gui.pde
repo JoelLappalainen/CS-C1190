@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
-PFont font;
+PFont mainFont;
+PShape clearMap;
 PShape kartta;
 PShape fkartta;
 PShape maa;
@@ -11,7 +12,7 @@ int boxSize = 400;
 int boxWidth = 190;
 int boxHeight = 30;
 color boxColor = color(149, 226, 255);
-String[] codes   = { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
+String[] codes= { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
                      "fo", "fi", "fr", "de", "el", "hu", "is", "ie", "im", "it", "rs", "lv",
                      "li", "lt", "lu", "mk", "mt", "md", "mc", "me", "nl", "no", "pl", "pt",
                      "ro", "ru", "sm", "rs", "sk", "si", "es", "se", "ch", "ua", "uk", "va"
@@ -22,10 +23,12 @@ String[] headers = { "Crude death by suicide from age 15 to 19",
                      "Noise from neighbours or from the street",
                      "Individuals - frequency of internet use"
                    };
+String[] units   = { "per 100000", "M€", "t", "% per capita", "% daily access of population" };
+String[] years   = { "2011", "2012", "2013", "2014", "2015" };
+
 color isoinHue;
 int isoinArvo;
 int pieninArvo;
-String yksikko;
 
 //0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
 void gayColor(Map<String,Integer> data, int coloriMoodi){
@@ -56,23 +59,18 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
   
   if (coloriMoodi == 0) {
     isoinHue = 360;
-    yksikko = "per 100000";
   } else if (coloriMoodi == 1) {
     isoinHue = 50;
     max = max - (max - secondMax) + 10000;
     min = min + (secondMin - min) - 10000;
-    yksikko = "M€";
   } else if (coloriMoodi == 2) {
     isoinHue = 141;
     max = max - (max - secondMax) + 100;
-    yksikko = "t";
   } else if (coloriMoodi == 3 ) {
     isoinHue = 313;
-    yksikko = "% per capita";
   } else if (coloriMoodi == 4) {
     isoinHue = 208;
     min = min + (secondMin - min) - 1;
-    yksikko = "% daily access of population";
   }
 
   for (String state : states){
@@ -94,13 +92,11 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
   }
 }
 
-void startScreen(){
-    kartta = loadShape("datmap.svg");
-    
+void startScreen(){    
     pushMatrix();
       translate(0, -150);
       scale(skaala);
-      shape(kartta, 0, 0);
+      shape(clearMap, 0, 0);
     popMatrix();
     pushMatrix();
       translate(0, 0);
@@ -134,8 +130,9 @@ void colorKey() {
   colorMode(HSB, 360, 100, 100);
   rectMode(CORNER);
   stroke(1);
+  fill(0, 0, 100);
   float siirtyma = (float(1)/float(6)) * (float(isoinArvo) - float(pieninArvo));
-  text(yksikko, 9, 240);
+  text(units[dataIndex], 9, 240);
   for (int i = 0; i < 7; i++) {
     fill(color(isoinHue, 100, 100-(100*i/7)));
     rect(7, 250+(30*i), 30, 30);
@@ -145,29 +142,26 @@ void colorKey() {
 }
 
 void draw(){
-  font = createFont("AvenirNextCondensed-Bold", 18);
-  textFont(font);
-  countryHover();
-  
-  colorMode(HSB);
+  textFont(mainFont);  
+  colorMode(HSB, 360, 100, 100);
   background(360, 0, 40);
-  pushMatrix();
-    translate(0, -150);
-    scale(skaala);
-    shape(kartta, 0, 0);
-  popMatrix();
-  
+    
   if (start) {
     startScreen();
+    touchpad.draw();
   } else {
+    //countryHover();
     pushMatrix();
-      translate(0, 0);
+      translate(0, -150);
       scale(skaala);
+      shape(kartta, 0, 0);      
+      translate(0, 75);
       fill(0, 0, 100);
+      stroke(0,0,0);
       textAlign(LEFT);
       text(headers[dataIndex], 10, 25);
+      text(years[year], 10, 50);
     popMatrix();
-    
     colorKey();
   }
 }
@@ -180,18 +174,18 @@ void keyPressed() {
     } else if (keyCode == UP){
       dataIndex--;
       if (dataIndex < 0) dataIndex = nOfStats-1;
-    } else if (key == 'x'){
+    } else if (key == 'x' || keyCode == ENTER){
       start = false;
       gayColor(getData(files[dataIndex]), dataIndex);
     }
   } else {
-    if(key == 'b') {
+    if(key == 'b' || keyCode == BACKSPACE) {
       start = true;
     } else if ((key == 'y' || keyCode == LEFT)) {
       year = max(year-1,0);
       gayColor(getData(files[dataIndex]), dataIndex);
     } else if ((key == 'u' || keyCode == RIGHT)) {
-      year++;
+      year = min(year+1, 4);
       gayColor(getData(files[dataIndex]), dataIndex);
     }
   }
