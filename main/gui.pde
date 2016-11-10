@@ -2,11 +2,11 @@ import java.util.ArrayList;
 
 PFont mainFont;
 PShape clearMap;
-PShape kartta;
-PShape fkartta;
-PShape maa;
+PShape map;
+PShape newMap;
+PShape countries;
 
-float skaala = 2.0;
+float scaleFactor = 2.0;
 
 int boxSize = 400;
 int boxWidth = 190;
@@ -26,14 +26,14 @@ String[] headers = { "Crude death by suicide from age 15 to 19",
 String[] units   = { "per 100000", "M€", "t", "% per capita", "% daily access of population" };
 String[] years   = { "2011", "2012", "2013", "2014", "2015" };
 
-color isoinHue;
-int isoinArvo;
-int pieninArvo;
+color biggestHue;
+int biggestValue;
+int smallestValue;
 
 //0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
-void gayColor(Map<String,Integer> data, int coloriMoodi){
+void colorize(Map<String,Integer> data, int colorScheme){
   colorMode(HSB, 360, 100, 100);
-  kartta = loadShape("datmap.svg");
+  map = loadShape("datmap.svg");
   int max = 0;
   int secondMax = 0;
   int min = 1000000000;
@@ -54,40 +54,40 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
     }
   }
   
-  isoinArvo = max;
-  pieninArvo = min;
+  biggestValue = max;
+  smallestValue = min;
   
-  if (coloriMoodi == 0) {
-    isoinHue = 360;
-  } else if (coloriMoodi == 1) {
-    isoinHue = 50;
+  if (colorScheme == 0) {
+    biggestHue = 360;
+  } else if (colorScheme == 1) {
+    biggestHue = 50;
     max = max - (max - secondMax) + 10000;
     min = min + (secondMin - min) - 10000;
-  } else if (coloriMoodi == 2) {
-    isoinHue = 141;
+  } else if (colorScheme == 2) {
+    biggestHue = 141;
     max = max - (max - secondMax) + 100;
-  } else if (coloriMoodi == 3 ) {
-    isoinHue = 313;
-  } else if (coloriMoodi == 4) {
-    isoinHue = 208;
+  } else if (colorScheme == 3 ) {
+    biggestHue = 313;
+  } else if (colorScheme == 4) {
+    biggestHue = 208;
     min = min + (secondMin - min) - 1;
   }
 
   for (String state : states){
-    if (coloriMoodi == 0){
-      kartta.getChild(state).setFill(color(360, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
+    if (colorScheme == 0){
+      map.getChild(state).setFill(color(360, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
     }
-    else if (coloriMoodi == 1){
-      kartta.getChild(state).setFill(color( 50, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
+    else if (colorScheme == 1){
+      map.getChild(state).setFill(color( 50, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
     }
-    else if (coloriMoodi == 2){
-      kartta.getChild(state).setFill(color(141, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
+    else if (colorScheme == 2){
+      map.getChild(state).setFill(color(141, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
     }
-    else if (coloriMoodi == 3){
-      kartta.getChild(state).setFill(color(313, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
+    else if (colorScheme == 3){
+      map.getChild(state).setFill(color(313, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
     }
-    else if (coloriMoodi == 4){
-      kartta.getChild(state).setFill(color(208, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
+    else if (colorScheme == 4){
+      map.getChild(state).setFill(color(208, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
     }
   }
 }
@@ -95,7 +95,7 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
 void startScreen(){    
     pushMatrix();
       translate(0, -150);
-      scale(skaala);
+      scale(scaleFactor);
       shape(clearMap, 0, 0);
     popMatrix();
     pushMatrix();
@@ -131,13 +131,13 @@ void colorKey() {
   rectMode(CORNER);
   stroke(1);
   fill(0, 0, 100);
-  float siirtyma = (float(1)/float(6)) * (float(isoinArvo) - float(pieninArvo));
+  float siirtyma = (float(1)/float(6)) * (float(biggestValue) - float(smallestValue));
   text(units[dataIndex], 9, 240);
   for (int i = 0; i < 7; i++) {
-    fill(color(isoinHue, 100, 100-(100*i/7)));
+    fill(color(biggestHue, 100, 100-(100*i/7)));
     rect(7, 250+(30*i), 30, 30);
     fill(0, 0, 100);
-    text(ceil(isoinArvo - i*(siirtyma)), 40, 270+(i*30));
+    text(ceil(biggestValue - i*(siirtyma)), 40, 270+(i*30));
   }
 }
 
@@ -153,8 +153,8 @@ void draw(){
     //countryHover();
     pushMatrix();
       translate(0, -150);
-      scale(skaala);
-      shape(kartta, 0, 0);      
+      scale(scaleFactor);
+      shape(map, 0, 0);      
       translate(0, 75);
       fill(0, 0, 100);
       stroke(0,0,0);
@@ -176,17 +176,17 @@ void keyPressed() {
       if (dataIndex < 0) dataIndex = nOfStats-1;
     } else if (key == 'x' || keyCode == ENTER){
       start = false;
-      gayColor(getData(files[dataIndex]), dataIndex);
+      colorize(getData(files[dataIndex]), dataIndex);
     }
   } else {
     if(key == 'b' || keyCode == BACKSPACE) {
       start = true;
     } else if ((key == 'y' || keyCode == LEFT)) {
       year = max(year-1,0);
-      gayColor(getData(files[dataIndex]), dataIndex);
+      colorize(getData(files[dataIndex]), dataIndex);
     } else if ((key == 'u' || keyCode == RIGHT)) {
       year = min(year+1, 4);
-      gayColor(getData(files[dataIndex]), dataIndex);
+      colorize(getData(files[dataIndex]), dataIndex);
     }
   }
 }
