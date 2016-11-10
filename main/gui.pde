@@ -95,7 +95,8 @@ void gayColor(Map<String,Integer> data, int coloriMoodi){
   }
 }
 
-void startScreen(){    
+void startScreen(){  
+    cameraMode = false;
     pushMatrix();
       translate(0, -150);
       scale(skaala);
@@ -129,6 +130,30 @@ void startScreen(){
     }
 }
 
+void mapScreen() {    
+  countryHover();
+  pushMatrix();
+    translate(0, -150);
+    scale(skaala);
+    shape(kartta, 0, 0);      
+    translate(0, 75);
+    fill(0, 0, 100);
+    stroke(0,0,0);
+    textAlign(LEFT);
+    text(headers[dataIndex], 10, 25);
+    text(years[year], 10, 50);
+  popMatrix();
+  
+  // menu area
+  fill(360, 0, 100, 191);
+  ellipse(width, 0, 150, 150);
+  fill(0);
+  text("Menu", width - 50, 35);
+  
+  colorKey();
+  useCamera(); 
+}
+
 void colorKey() {
   colorMode(HSB, 360, 100, 100);
   rectMode(CORNER);
@@ -142,7 +167,7 @@ void colorKey() {
     fill(0, 0, 100);
     text(ceil(isoinArvo - i*(siirtyma)), 40, 270+(i*30));
   }
-}
+} 
 
 // For calculating the most red pixel on camera and use it as the cursor
 void useCamera() {
@@ -168,26 +193,12 @@ void useCamera() {
     }
     if(cameraMode) {
       fill(255, 204, 0, 128);
-      ellipse(redX, redY, pointSize, pointSize); 
+      ellipse(redX, redY, pointSize, pointSize);
+      if(redX > width - 75 && redY < 75) {
+        start = true;
+      }
     }
   }
-}
-
-void mapScreen() {    
-  countryHover();
-  pushMatrix();
-    translate(0, -150);
-    scale(skaala);
-    shape(kartta, 0, 0);      
-    translate(0, 75);
-    fill(0, 0, 100);
-    stroke(0,0,0);
-    textAlign(LEFT);
-    text(headers[dataIndex], 10, 25);
-    text(years[year], 10, 50);
-  popMatrix();
-  colorKey();
-  useCamera(); 
 }
 
 void draw(){
