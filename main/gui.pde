@@ -30,6 +30,9 @@ color isoinHue;
 int isoinArvo;
 int pieninArvo;
 
+boolean cameraMode = false;
+int pointSize = 70;
+
 //0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
 void gayColor(Map<String,Integer> data, int coloriMoodi){
   colorMode(HSB, 360, 100, 100);
@@ -141,6 +144,52 @@ void colorKey() {
   }
 }
 
+// For calculating the most red pixel on camera and use it as the cursor
+void useCamera() {
+  if (video.available()) {
+    video.read();
+    video.loadPixels();
+    int redX = 0; // X-coordinate of the most red pixel
+    int redY = 0; // Y-coordinate of the most red pixel
+    float hueValue = 240; // Minimum hue/(red) value to be picked
+    int index = 0;
+        
+    for (int y = 0; y < video.height; y++) {
+      for (int x = 0; x < video.width; x++) {       
+        int pixelValue = video.pixels[index]; // Get the color stored in the pixel
+        float pixelHue = hue(pixelValue);  // Get pixel's hue value
+        if (pixelHue > hueValue) {
+          hueValue = pixelHue;
+          redY = y;
+          redX = video.width - x - 1; // reversed
+        }
+        index++;
+      }
+    }
+    if(cameraMode) {
+      fill(255, 204, 0, 128);
+      ellipse(redX, redY, pointSize, pointSize); 
+    }
+  }
+}
+
+void mapScreen() {    
+  countryHover();
+  pushMatrix();
+    translate(0, -150);
+    scale(skaala);
+    shape(kartta, 0, 0);      
+    translate(0, 75);
+    fill(0, 0, 100);
+    stroke(0,0,0);
+    textAlign(LEFT);
+    text(headers[dataIndex], 10, 25);
+    text(years[year], 10, 50);
+  popMatrix();
+  colorKey();
+  useCamera(); 
+}
+
 void draw(){
   textFont(mainFont);  
   colorMode(HSB, 360, 100, 100);
@@ -150,19 +199,7 @@ void draw(){
     startScreen();
     touchpad.draw();
   } else {
-    countryHover();
-    pushMatrix();
-      translate(0, -150);
-      scale(skaala);
-      shape(kartta, 0, 0);      
-      translate(0, 75);
-      fill(0, 0, 100);
-      stroke(0,0,0);
-      textAlign(LEFT);
-      text(headers[dataIndex], 10, 25);
-      text(years[year], 10, 50);
-    popMatrix();
-    colorKey();
+    mapScreen();
   }
 }
 
@@ -187,6 +224,8 @@ void keyPressed() {
     } else if ((key == 'u' || keyCode == RIGHT)) {
       year = min(year+1, 4);
       gayColor(getData(files[dataIndex]), dataIndex);
+    } else if(key == 'c') {
+      cameraMode = !cameraMode;
     }
   }
 }
