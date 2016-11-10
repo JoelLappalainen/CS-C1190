@@ -29,8 +29,8 @@ void setup() {
   frameRate(120);
   touchpad = new Touchpad(width,height);
   mainFont = createFont("AvenirNextCondensed-Bold", 18);
-  kartta = loadShape("datmap.svg");
-  fkartta = loadShape("datmap.svg");
+  map = loadShape("datmap.svg");
+  newMap = loadShape("datmap.svg");
   clearMap = loadShape("datmap.svg");
   
   video = new Capture(this, width, height);
