@@ -12,7 +12,7 @@ int boxSize = 400;
 int boxWidth = 190;
 int boxHeight = 30;
 color boxColor = color(149, 226, 255);
-String[] codes= { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
+String[] allCodes= { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
                      "fo", "fi", "fr", "de", "el", "hu", "is", "ie", "im", "it", "rs", "lv",
                      "li", "lt", "lu", "mk", "mt", "md", "mc", "me", "nl", "no", "pl", "pt",
                      "ro", "ru", "sm", "rs", "sk", "si", "es", "se", "ch", "ua", "uk", "va"
@@ -150,7 +150,7 @@ void draw(){
     startScreen();
     touchpad.draw();
   } else {
-    //countryHover();
+    countryHover();
     pushMatrix();
       translate(0, -150);
       scale(skaala);

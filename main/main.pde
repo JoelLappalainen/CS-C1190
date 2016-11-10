@@ -13,7 +13,7 @@ JSONObject suicide, gdp, fish, noises, internet;
 Map<String, Integer> suicideData, gdpData, fishData, noisesData, internetData;
 int dataIndex = 0;
 JSONObject[] files;
-//String[]String[] codes;
+Map<Integer,List<String>> codes = new HashMap<Integer, List<String>>();
 
 int nOfStats = 5;
 int year = 4;
@@ -55,7 +55,7 @@ Map<String, Integer> getData(JSONObject file) {
   JSONObject geoIndexes = geoCategory.getJSONObject("index");
   JSONObject geoLabels = geoCategory.getJSONObject("label");
   List<String> geoLabelKeys = new ArrayList<String>(geoIndexes.keys());
-  //codes = 
+  codes.put(dataIndex, geoLabelKeys); 
   JSONObject timeIndexes = dimensions.getJSONObject("time").getJSONObject("category").getJSONObject("index");
   List<String> yearsAsString = new ArrayList<String>(timeIndexes.keys());
   
@@ -64,7 +64,7 @@ Map<String, Integer> getData(JSONObject file) {
   int nOfYears = timeIndexes.size();
   if (year >= nOfYears) year = nOfYears - 1;
   if (year < 0) year = 0;
-  println("\nYear " + yearsAsString.get(year));
+  
   int i = 0;
   while(i < geoLabelKeys.size()){
     String code = geoLabelKeys.get(i);
