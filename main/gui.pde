@@ -134,8 +134,8 @@ void mapScreen() {
   countryHover();
   pushMatrix();
     translate(0, -150);
-    scale(skaala);
-    shape(kartta, 0, 0);      
+    scale(scaleFactor);
+    shape(map, 0, 0);      
     translate(0, 75);
     fill(0, 0, 100);
     stroke(0,0,0);
@@ -199,23 +199,6 @@ void useCamera() {
       }
     }
   }
-}
-
-void mapScreen() {    
-  countryHover();
-  pushMatrix();
-    translate(0, -150);
-    scale(scaleFactor);
-    shape(map, 0, 0);      
-    translate(0, 75);
-    fill(0, 0, 100);
-    stroke(0,0,0);
-    textAlign(LEFT);
-    text(headers[dataIndex], 10, 25);
-    text(years[year], 10, 50);
-  popMatrix();
-  colorKey();
-  useCamera(); 
 }
 
 void draw(){
