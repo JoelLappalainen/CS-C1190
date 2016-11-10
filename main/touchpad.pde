@@ -38,8 +38,18 @@ class Touchpad implements Observer {
         int ysize = (int) (10*f.getSize() * (f.getMinorAxis()/2));
         int ang   = f.getAngle();
         
-        float dx = f.getXVelocity();
-        if(dx > 10)
+        for (int j=i+1; j<MAX_FINGER_BLOBS;j++) {          
+          Finger f2 = blobs[j];
+          if(f2 != null && f2.getState() == FingerState.PRESSED) {
+            float dy = f.getYVelocity();
+            float dy2 = f2.getYVelocity();
+            if((dy+dy2)/2 > 0.3) {
+              swipeUp();
+            } else if((dy+dy2)/2 < -0.3) {
+              swipeDown();
+            }
+          }
+        }
         
         pushMatrix();
           translate(x-xsize/2, y-ysize/2);
@@ -53,5 +63,19 @@ class Touchpad implements Observer {
         popMatrix();
       }
     }
+  }
+}
+
+void swipeUp() {
+  if(start) {
+    dataIndex--;
+    if (dataIndex < 0) dataIndex = nOfStats-1;
+  }
+}
+
+void swipeDown() {
+  if(start) {
+    dataIndex++;
+    if (dataIndex >= nOfStats) dataIndex = 0;
   }
 }
