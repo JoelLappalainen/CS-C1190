@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Observer;
 import java.util.Observable;
+import processing.video.*;
 
 Touchpad touchpad;
 JSONObject suicide, gdp, fish, noises, internet;
@@ -14,6 +15,7 @@ Map<String, Integer> suicideData, gdpData, fishData, noisesData, internetData;
 int dataIndex = 0;
 JSONObject[] files;
 //String[]String[] codes;
+Capture video;
 
 int nOfStats = 5;
 int year = 4;
@@ -30,6 +32,9 @@ void setup() {
   kartta = loadShape("datmap.svg");
   fkartta = loadShape("datmap.svg");
   clearMap = loadShape("datmap.svg");
+  
+  video = new Capture(this, width, height);
+  video.start();
   
   suicide = loadJSONObject("data/suicide5.json");
   gdp = loadJSONObject("data/gdp5.json");
