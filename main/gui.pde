@@ -12,7 +12,7 @@ int boxSize = 400;
 int boxWidth = 190;
 int boxHeight = 30;
 color boxColor = color(149, 226, 255);
-String[] codes= { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
+String[] codes = { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
                      "fo", "fi", "fr", "de", "el", "hu", "is", "ie", "im", "it", "rs", "lv",
                      "li", "lt", "lu", "mk", "mt", "md", "mc", "me", "nl", "no", "pl", "pt",
                      "ro", "ru", "sm", "rs", "sk", "si", "es", "se", "ch", "ua", "uk", "va"
@@ -29,6 +29,9 @@ String[] years   = { "2011", "2012", "2013", "2014", "2015" };
 color biggestHue;
 int biggestValue;
 int smallestValue;
+
+boolean cameraMode = false;
+int pointSize = 70;
 
 //0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
 void colorize(Map<String,Integer> data, int colorScheme){
@@ -163,6 +166,32 @@ void draw(){
       text(years[year], 10, 50);
     popMatrix();
     colorKey();
+    
+    if (video.available()) {
+      video.read();
+      video.loadPixels();
+      int redX = 0; // X-coordinate of the most red pixel
+      int redY = 0; // Y-coordinate of the most red pixel
+      float hueValue = 240; // Minimum hue/(red) value to be picked
+      int index = 0;
+          
+      for (int y = 0; y < video.height; y++) {
+        for (int x = 0; x < video.width; x++) {       
+          int pixelValue = video.pixels[index]; // Get the color stored in the pixel
+          float pixelHue = hue(pixelValue);  // Get pixel's hue value
+          if (pixelHue > hueValue) {
+            hueValue = pixelHue;
+            redY = y;
+            redX = video.width - x - 1; // reversed
+          }
+          index++;
+        }
+      }
+      if(cameraMode) {
+        fill(255, 204, 0, 128);
+        ellipse(redX, redY, pointSize, pointSize); 
+      }
+    }
   }
 }
 
@@ -186,7 +215,13 @@ void keyPressed() {
       colorize(getData(files[dataIndex]), dataIndex);
     } else if ((key == 'u' || keyCode == RIGHT)) {
       year = min(year+1, 4);
+<<<<<<< HEAD
       colorize(getData(files[dataIndex]), dataIndex);
+=======
+      gayColor(getData(files[dataIndex]), dataIndex);
+    } else if(key == 'c') {
+      cameraMode = !cameraMode;
+>>>>>>> f9c9ec98aa303276ef4162228964364806d49244
     }
   }
 }
