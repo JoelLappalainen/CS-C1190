@@ -1,6 +1,8 @@
 int hoveredValue;
 String hoveredCountry;
 
+//Creates a map not visible to the user, where every country has a unique color value.
+//The color can be used to identify different countries that are under the cursor.
 void fakeMap() {
   colorMode(RGB, 100, 100, 100);
   background(80,0,0);
@@ -9,6 +11,7 @@ void fakeMap() {
   }
 }
 
+//Recognizes the country that is under the cursor
 void countryHover() {
   fakeMap();
   pushMatrix();
@@ -32,6 +35,7 @@ void countryHover() {
   colorMode(HSB, 360, 100, 100);
 }
 
+//Information about the country and its value
 void infoWindow() { 
   if (hoveredValue >= 0) {
     pushMatrix();

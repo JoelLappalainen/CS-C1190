@@ -231,6 +231,7 @@ void draw(){
   }
 }
 
+//Defining the actions for different buttons
 void keyPressed() {
   if(start) {
     if (keyCode == DOWN){
