@@ -12,11 +12,14 @@ int boxSize = 400;
 int boxWidth = 190;
 int boxHeight = 30;
 color boxColor = color(149, 226, 255);
+
+//list of all possible countrycodes used by our map and/or data
 String[] allCodes= { "al", "ad", "at", "by", "be", "ba", "bg", "hr", "cy", "cz", "dk", "ee",
                      "fo", "fi", "fr", "de", "el", "hu", "is", "ie", "im", "it", "rs", "lv",
                      "li", "lt", "lu", "mk", "mt", "md", "mc", "me", "nl", "no", "pl", "pt",
                      "ro", "ru", "sm", "rs", "sk", "si", "es", "se", "ch", "ua", "uk", "va"
                    };
+//list of all possible headers to be seen by the user
 String[] headers = { "Crude death by suicide from age 15 to 19",
                      "Gross domestic product at market prices",
                      "Weight of pike-perch caught in tonnes",
@@ -33,7 +36,16 @@ int smallestValue;
 boolean cameraMode = false;
 int pointSize = 70;
 
-//0 itsarit, 1 gdp, 2 kuha, 3 meteli, 4 netti
+/*
+Method for coloring individual countries reflecting the type of data shown and
+the countries' values for the shown data. The method defines the countries with
+smallest and highest values and defines other countries' colors proportionally to
+the lowest and the highest one. The lowest country gets the darkest color and vice
+versa. The method also defines the second highest country and makes the highest 
+valued country a little bit lighter, because in our data the highest values tend
+to be a lot higher than the other ones.
+*/
+//0 suicides, 1 gdp, 2 pike-perch, 3 noise, 4 internet use
 void colorize(Map<String,Integer> data, int colorScheme){
   colorMode(HSB, 360, 100, 100);
   map = loadShape("datmap.svg");
@@ -95,6 +107,10 @@ void colorize(Map<String,Integer> data, int colorScheme){
   }
 }
 
+/*
+Method for defining the initial view for the user, showing her the possible data
+choices to be visualized
+*/
 void startScreen(){  
     cameraMode = false;
     pushMatrix();
@@ -130,6 +146,7 @@ void startScreen(){
     }
 }
 
+//Method for the map browsing view that shows the data with colors
 void mapScreen() {    
   countryHover();
   pushMatrix();
@@ -154,6 +171,8 @@ void mapScreen() {
   useCamera(); 
 }
 
+//Method for displaying the color scale at the left of the screen, including the 
+//values that the color represents.
 void colorKey() {
   colorMode(HSB, 360, 100, 100);
   rectMode(CORNER);

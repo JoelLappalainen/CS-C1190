@@ -24,6 +24,8 @@ float bx = 270.0;
 float by = 265.0;
 
 void setup() { 
+  //defined the size and framerate for the project and defined variables for
+  //the files used
   colorMode(HSB, 360, 100, 100);
   size (1280, 940);
   frameRate(120);
@@ -75,10 +77,7 @@ Map<String, Integer> getData(JSONObject file) {
     String code = geoLabelKeys.get(i);
     String index = Integer.toString(geoIndexes.getInt(code) * nOfYears + year); 
     data.put(code.toLowerCase(), values.getInt(index));
-    i++;
-    //String country = geoLabels.getString(code);
-    //int value = values.getInt(index);
-    //println("Country: " + country + "," + " value: " + value );      
+    i++;     
   } 
   return data;
 }
