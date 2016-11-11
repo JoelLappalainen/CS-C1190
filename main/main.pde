@@ -1,3 +1,17 @@
+/*
+This program visualizes some chosen data from eurostat.com on a vecctor graphic map.
+First the user chooses the desired data from the menu using the arrow keys and enter.
+The user can return to the menu using backspace. The user can change the year of the
+shown data with the left and right arrow keys. Pointing the cursor to a country on 
+the map shows the country's name and value regarding the data shown. This program
+can only be used with an Apple computer with a touchpad.
+  This program can also be used with a PS3 controller, although the control need to
+be configured to correspond the correct keys on the keyboard. Pressing the c key 
+enables camera control, where one can control the cursor with a red object in the 
+camera view. Bringing the cursor to the right upper corner brings the user back to
+to the menu. One can also use the swipe gesture to browse the data to be shown.
+*/
+
 import com.alderstone.multitouch.mac.touchpad.*;
 import com.alderstone.multitouch.mac.touchpad.tests.*;
 import java.util.Iterator;
