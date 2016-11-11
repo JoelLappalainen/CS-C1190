@@ -51,7 +51,7 @@ class Touchpad implements Observer {
           }
         }
         
-        pushMatrix();
+        /*pushMatrix();
           translate(x-xsize/2, y-ysize/2);
           pushMatrix();
             rotate(radians(-ang));  // convert degrees to radians
@@ -60,7 +60,7 @@ class Touchpad implements Observer {
           popMatrix();
           fill(255,0,0);
           text(""+i,0,0);
-        popMatrix();
+        popMatrix(); */
       }
     }
   }

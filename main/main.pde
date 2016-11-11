@@ -29,7 +29,9 @@ void setup() {
   colorMode(HSB, 360, 100, 100);
   size (1280, 940);
   frameRate(120);
-  touchpad = new Touchpad(width,height);
+  
+  if (System.getProperty("os.name").toLowerCase() == "mac");
+    touchpad = new Touchpad(width,height);
   mainFont = createFont("AvenirNextCondensed-Bold", 18);
   map = loadShape("datmap.svg");
   newMap = loadShape("datmap.svg");

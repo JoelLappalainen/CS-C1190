@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 
 PFont mainFont;
-PShape clearMap;
-PShape map;
-PShape newMap;
-PShape countries;
+PShape clearMap, map, newMap;
 
 float scaleFactor = 2.0;
 
@@ -30,11 +27,11 @@ String[] units   = { "per 100000", "M€", "t", "% per capita", "% daily access 
 String[] years   = { "2011", "2012", "2013", "2014", "2015" };
 
 color biggestHue;
-int biggestValue;
-int smallestValue;
+int biggestValue, smallestValue;
 
 boolean cameraMode = false;
-int pointSize = 70;
+int pointSize = 30;
+int cursorX, cursorY;
 
 /*
 Method for coloring individual countries reflecting the type of data shown and
@@ -76,32 +73,28 @@ void colorize(Map<String,Integer> data, int colorScheme){
     biggestHue = 360;
   } else if (colorScheme == 1) {
     biggestHue = 50;
-    max = max - (max - secondMax) + 10000;
-    min = min + (secondMin - min) - 10000;
+    max = secondMax + 10000;
+    min = secondMin - 10000;
   } else if (colorScheme == 2) {
     biggestHue = 141;
-    max = max - (max - secondMax) + 100;
+    max = secondMax + 100;
   } else if (colorScheme == 3 ) {
     biggestHue = 313;
   } else if (colorScheme == 4) {
     biggestHue = 208;
-    min = min + (secondMin - min) - 1;
+    min = secondMin - 1;
   }
 
   for (String state : states){
     if (colorScheme == 0){
       map.getChild(state).setFill(color(360, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
-    }
-    else if (colorScheme == 1){
+    } else if (colorScheme == 1){
       map.getChild(state).setFill(color( 50, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
-    }
-    else if (colorScheme == 2){
+    } else if (colorScheme == 2){
       map.getChild(state).setFill(color(141, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
-    }
-    else if (colorScheme == 3){
+    } else if (colorScheme == 3){
       map.getChild(state).setFill(color(313, 100, 100*(float(data.get(state) - min)/(float(max) - min))));
-    }
-    else if (colorScheme == 4){
+    } else if (colorScheme == 4){
       map.getChild(state).setFill(color(208, 100, 100*(float(data.get(state) - min)/(float(max - min)))));
     }
   }
@@ -149,6 +142,7 @@ void startScreen(){
 //Method for the map browsing view that shows the data with colors
 void mapScreen() {    
   countryHover();
+  background(360, 0, 40);
   pushMatrix();
     translate(0, -150);
     scale(scaleFactor);
@@ -166,9 +160,10 @@ void mapScreen() {
   ellipse(width, 0, 150, 150);
   fill(0);
   text("Menu", width - 50, 35);
-  
   colorKey();
-  useCamera(); 
+  useCamera();
+  drawCursor();
+  infoWindow();
 }
 
 //Method for displaying the color scale at the left of the screen, including the 
@@ -193,8 +188,8 @@ void useCamera() {
   if (video.available()) {
     video.read();
     video.loadPixels();
-    int redX = 0; // X-coordinate of the most red pixel
-    int redY = 0; // Y-coordinate of the most red pixel
+    cursorX = 0; // X-coordinate of the most red pixel
+    cursorY = 0; // Y-coordinate of the most red pixel
     float hueValue = 240; // Minimum hue/(red) value to be picked
     int index = 0;
         
@@ -204,18 +199,21 @@ void useCamera() {
         float pixelHue = hue(pixelValue);  // Get pixel's hue value
         if (pixelHue > hueValue) {
           hueValue = pixelHue;
-          redY = y;
-          redX = video.width - x - 1; // reversed
+          cursorY = y;
+          cursorX = video.width - x - 1; // reversed
         }
         index++;
       }
     }
-    if(cameraMode) {
-      fill(255, 204, 0, 128);
-      ellipse(redX, redY, pointSize, pointSize);
-      if(redX > width - 75 && redY < 75) {
-        start = true;
-      }
+  }
+}
+
+void drawCursor() {
+  if(cameraMode) {
+    fill(255, 204, 0, 128);
+    ellipse(cursorX, cursorY, pointSize, pointSize);
+    if(cursorX > width - 75 && cursorY < 75) {
+      start = true;
     }
   }
 }
